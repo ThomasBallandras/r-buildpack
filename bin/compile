@@ -35,3 +35,4 @@ cd /app
 ln -sfn /app/R-4.0.0 /app/R
 
 export PATH="/app/R/bin:${PATH}"
+
