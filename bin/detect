@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "R Buildpack"
+exit 0
