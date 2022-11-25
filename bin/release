@@ -9,8 +9,10 @@ set -x # debug
 
   # shiny app
   cat <<EOF
----
-
+  ---
+  default_process_types:
+  console: R
+  web: R --file=/app/run.R --gui-none --no-save
 EOF
 
 elif [ -f "$1/app.R" ]; then
