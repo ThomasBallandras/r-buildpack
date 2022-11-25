@@ -40,7 +40,7 @@ git clone --depth=1 "$APT_BUILDPACK_URL" "$apt_deps_buildpack_dir"
 rm -r "$apt_deps_buildpack_dir"
 
 #export PATH="${HOME}/.apt/usr:${PATH}"
-export PATH="/.apt/usr/bin:${PATH}"
+export PATH="${HOME}/.apt/usr/bin:${PATH}"
 
 ln -fs ${HOME}/.apt/usr/lib/R/etc/Makeconf ${HOME}/.apt/etc/R/Makeconf
 ln -fs ${HOME}/.apt/usr/lib/R/etc/Renviron ${HOME}/.apt/etc/R/Renviron
