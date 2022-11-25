@@ -41,6 +41,7 @@ rm -r "$apt_deps_buildpack_dir"
 
 #export PATH="${HOME}/.apt/usr:${PATH}"
 export PATH="/.apt/usr/bin:${PATH}"
+ls -laR ${HOME}
 
 #dpkg -i "${CACHE_DIR}/r-base-core_${RVERSION}-1.2004.0_amd64.deb"
 #dpkg -i "${CACHE_DIR}/r-recommended_${RVERSION}-1.2004.0_all.deb"
