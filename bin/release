@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export R_HOME="/app/.apt/usr/lib/R"
+export R_HOME="${HOME}/.apt/usr/lib/R"
 
 set -e
 set -x # debug
