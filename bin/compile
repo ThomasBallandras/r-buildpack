@@ -41,6 +41,7 @@ rm -r "$apt_deps_buildpack_dir"
 
 #export PATH="${HOME}/.apt/usr:${PATH}"
 export PATH="${HOME}/.apt/usr/bin:${PATH}"
+export R_HOME="${HOME}/.apt/usr/lib/R"
 
 ln -fs ${HOME}/.apt/usr/lib/R/etc/Makeconf ${HOME}/.apt/etc/R/Makeconf
 ln -fs ${HOME}/.apt/usr/lib/R/etc/Renviron ${HOME}/.apt/etc/R/Renviron
