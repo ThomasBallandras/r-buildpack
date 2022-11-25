@@ -14,17 +14,17 @@ ENV_DIR=$3
 export RVERSION="${RVERSION:-4.0.0}"
 
 #echo "gfortran" >> "$BUILD_DIR/Aptfile"
-curl -L https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-base_${RVERSION}-1.2004.0_all.deb --output "${CACHE_DIR}/r-base_${RVERSION}-1.2004.0_all.deb"
-curl -L https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-base-core_${RVERSION}-1.2004.0_amd64.deb --output "${CACHE_DIR}/r-base-core_${RVERSION}-1.2004.0_amd64.deb"
-curl -L https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-base-dev_${RVERSION}-1.2004.0_all.deb --output "${CACHE_DIR}/r-base-dev_${RVERSION}-1.2004.0_all.deb"
-curl -L https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-recommended_${RVERSION}-1.2004.0_all.deb --output "${CACHE_DIR}/r-recommended_${RVERSION}-1.2004.0_all.deb"
+#curl -L https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-base_${RVERSION}-1.2004.0_all.deb --output "${CACHE_DIR}/r-base_${RVERSION}-1.2004.0_all.deb"
+#curl -L https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-base-core_${RVERSION}-1.2004.0_amd64.deb --output "${CACHE_DIR}/r-base-core_${RVERSION}-1.2004.0_amd64.deb"
+#curl -L https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-base-dev_${RVERSION}-1.2004.0_all.deb --output "${CACHE_DIR}/r-base-dev_${RVERSION}-1.2004.0_all.deb"
+#curl -L https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-recommended_${RVERSION}-1.2004.0_all.deb --output "${CACHE_DIR}/r-recommended_${RVERSION}-1.2004.0_all.deb"
 
 #dpkg-deb -I "${CACHE_DIR}/r-base-core_${RVERSION}-1.2004.0_amd64.deb" | grep -E "Depends" | tr -d "|," | sed "s/([^)]*)/()/g" | tr -d "()" | tr " " "\n" | grep -Ev "Depends" | grep . >> "${BUILD_DIR}/Aptfile"
 
-echo "${CACHE_DIR}/r-base-core_${RVERSION}-1.2004.0_amd64.deb" >> "$BUILD_DIR/Aptfile"
-echo "${CACHE_DIR}/r-base-dev_${RVERSION}-1.2004.0_all.deb" >> "$BUILD_DIR/Aptfile"
-echo "${CACHE_DIR}/r-recommended_${RVERSION}-1.2004.0_all.deb" >> "$BUILD_DIR/Aptfile"
-echo "${CACHE_DIR}/r-base_${RVERSION}-1.2004.0_all.deb" >> "$BUILD_DIR/Aptfile"
+echo "https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-base-core_${RVERSION}-1.2004.0_amd64.deb" >> "$BUILD_DIR/Aptfile"
+echo "https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-base-dev_${RVERSION}-1.2004.0_all.deb" >> "$BUILD_DIR/Aptfile"
+echo "https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-recommended_${RVERSION}-1.2004.0_all.deb" >> "$BUILD_DIR/Aptfile"
+echo "https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-base_${RVERSION}-1.2004.0_all.deb" >> "$BUILD_DIR/Aptfile"
 
 
 apt_deps_buildpack_dir=$(mktemp apt_buildpack_XXXX)
