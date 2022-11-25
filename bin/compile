@@ -42,12 +42,12 @@ rm -r "$apt_deps_buildpack_dir"
 #export PATH="${HOME}/.apt/usr:${PATH}"
 export PATH="/.apt/usr/bin:${PATH}"
 
-ln -fs /${home}/.apt/usr/lib/R/etc/Makeconf ../../../../etc/R/Makeconf
-ln -fs /${home}/.apt/usr/lib/R/etc/Renviron ../../../../etc/R/Renviron
-ln -fs /${home}/.apt/usr/lib/R/etc/Renviron.site ../../../../etc/R/Renviron.site
-ln -fs /${home}/.apt/usr/lib/R/etc/Rprofile.site ../../../../etc/R/Rprofile.site
-ln -fs /${home}/.apt/usr/lib/R/etc/ldpaths ../../../../etc/R/ldpaths
-ln -fs /${home}/.apt/usr/lib/R/etc/repositories ../../../../etc/R/repositories
+ln -fs /${HOME}/.apt/usr/lib/R/etc/Makeconf ../../../../etc/R/Makeconf
+ln -fs /${HOME}/.apt/usr/lib/R/etc/Renviron ../../../../etc/R/Renviron
+ln -fs /${HOME}/.apt/usr/lib/R/etc/Renviron.site ../../../../etc/R/Renviron.site
+ln -fs /${HOME}/.apt/usr/lib/R/etc/Rprofile.site ../../../../etc/R/Rprofile.site
+ln -fs /${HOME}/.apt/usr/lib/R/etc/ldpaths ../../../../etc/R/ldpaths
+ln -fs /${HOME}/.apt/usr/lib/R/etc/repositories ../../../../etc/R/repositories
 
 ls -laR ${HOME}
 
