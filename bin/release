@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export R_HOME="/.apt/usr/lib/R"
+
 set -e
 # set -x # debug
 
