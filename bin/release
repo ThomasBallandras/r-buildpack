@@ -3,7 +3,7 @@
 export R_HOME="/app/.apt/usr/lib/R"
 
 set -e
-# set -x # debug
+set -x # debug
 
 if [ -f "$1/run.R" ]; then
 
