@@ -5,33 +5,33 @@ export R_HOME="${HOME}/.apt/usr/lib/R"
 set -e
 set -x # debug
 
-if [ -f "$1/run.R" ]; then
-
+# if [ -f "$1/run.R" ]; then
+#
   # shiny app
-  cat <<EOF
----
-default_process_types:
-  console: R
-  web: R --file=/app/run.R --gui-none --no-save
-EOF
+#  cat <<EOF
+#---
+#default_process_types:
+#  console: R
+#  web: R --file=/app/run.R --gui-none --no-save
+#EOF
 
-elif [ -f "$1/app.R" ]; then
+#elif [ -f "$1/app.R" ]; then
 
   # plumber app
-  cat <<EOF
----
-default_process_types:
-  console: R
-  web: R --file=/app/app.R --gui-none --no-save
-EOF
+#  cat <<EOF
+#---
+#default_process_types:
+#  console: R
+#  web: R --file=/app/app.R --gui-none --no-save
+#EOF
 
-else
+#else
 
   # other app
-  cat <<EOF
----
-default_process_types:
-  console: R --no-save
-EOF
+#  cat <<EOF
+#---
+#default_process_types:
+#  console: R --no-save
+#EOF
 
-fi
+#fi
