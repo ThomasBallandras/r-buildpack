@@ -62,13 +62,7 @@ pushd "${cache_dir}/R-4.0.0"
 ./configure --prefix="${build_dir}/R-4.0.0" \
             --enable-java=no \
             --with-recommended-packages=no
-echo "Running make check"
-make check
-
-echo "Running make"
 make
-
-echo "Running make install"
 make install
 
 popd
