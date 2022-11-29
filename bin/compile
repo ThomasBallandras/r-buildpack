@@ -13,14 +13,6 @@ ENV_DIR=$3
 
 export RVERSION="${RVERSION:-4.0.0}"
 
-#echo "gfortran" >> "$BUILD_DIR/Aptfile"
-#curl -L https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-base_${RVERSION}-1.2004.0_all.deb --output "${CACHE_DIR}/r-base_${RVERSION}-1.2004.0_all.deb"
-#curl -L https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-base-core_${RVERSION}-1.2004.0_amd64.deb --output "${CACHE_DIR}/r-base-core_${RVERSION}-1.2004.0_amd64.deb"
-#curl -L https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-base-dev_${RVERSION}-1.2004.0_all.deb --output "${CACHE_DIR}/r-base-dev_${RVERSION}-1.2004.0_all.deb"
-#curl -L https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-recommended_${RVERSION}-1.2004.0_all.deb --output "${CACHE_DIR}/r-recommended_${RVERSION}-1.2004.0_all.deb"
-
-#dpkg-deb -I "${CACHE_DIR}/r-base-core_${RVERSION}-1.2004.0_amd64.deb" | grep -E "Depends" | tr -d "|," | sed "s/([^)]*)/()/g" | tr -d "()" | tr " " "\n" | grep -Ev "Depends" | grep . >> "${BUILD_DIR}/Aptfile"
-
 echo "https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-base-core_${RVERSION}-1.2004.0_amd64.deb" >> "$BUILD_DIR/Aptfile"
 echo "https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-base-dev_${RVERSION}-1.2004.0_all.deb" >> "$BUILD_DIR/Aptfile"
 echo "https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-recommended_${RVERSION}-1.2004.0_all.deb" >> "$BUILD_DIR/Aptfile"
@@ -39,10 +31,7 @@ git clone --depth=1 "$APT_BUILDPACK_URL" "$apt_deps_buildpack_dir"
 
 rm -r "$apt_deps_buildpack_dir"
 
-#export PATH="${HOME}/.apt/usr:${PATH}"
 export PATH="${HOME}/.apt/usr/bin:${PATH}"
-
-#ln -fs ${HOME}/.apt/usr/lib/R /usr/lib/R
 
 export R_HOME="${HOME}/.apt/usr/lib/R"
 export PATH="${R_HOME}:${PATH}"
@@ -56,21 +45,3 @@ ln -fs ${HOME}/.apt/usr/lib/R/etc/repositories ${HOME}/.apt/etc/R/repositories
 
 curl -L https://cran.r-project.org/src/contrib/shiny_1.7.3.tar.gz --output ${CACHE_DIR}/shiny_1.7.3.tar.gz
 R -e "install.packages('shiny')"
-
-#dpkg -i "${CACHE_DIR}/r-base-core_${RVERSION}-1.2004.0_amd64.deb"
-#dpkg -i "${CACHE_DIR}/r-recommended_${RVERSION}-1.2004.0_all.deb"
-#dpkg -i "${CACHE_DIR}/r-base-dev_${RVERSION}-1.2004.0_all.deb"
-#dpkg -i "${CACHE_DIR}/r-base_${RVERSION}-1.2004.0_all.deb"
-
-#curl -L https://cran.r-project.org/src/base/R-4/R-4.0.0.tar.gz --output "${CACHE_DIR}/R-4.0.0.tar.gz"
-#cd "${CACHE_DIR}"
-#tar -xvzf ./R-4.0.0.tar.gz
-#cd R-4.0.0
-#./configure --prefix=/app/R-4.0.0 --enable-java=no --with-recommended-packages=no --without-lapack
-#make
-#make install
-#cd /app
-#ln -sfn /app/R-4.0.0 /app/R
-
-#export PATH="/app/R/bin:${PATH}"
-
