@@ -13,10 +13,10 @@ ENV_DIR=$3
 
 export RVERSION="${RVERSION:-4.0.0}"
 
-echo "https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-base-core_${RVERSION}-1.2004.0_amd64.deb" >> "$BUILD_DIR/Aptfile"
-echo "https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-base-dev_${RVERSION}-1.2004.0_all.deb" >> "$BUILD_DIR/Aptfile"
-echo "https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-recommended_${RVERSION}-1.2004.0_all.deb" >> "$BUILD_DIR/Aptfile"
-echo "https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-base_${RVERSION}-1.2004.0_all.deb" >> "$BUILD_DIR/Aptfile"
+echo "https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-base-core_${RVERSION}-1.2004.0_amd64.deb" >> "${BUILD_DIR}/Aptfile"
+echo "https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-base-dev_${RVERSION}-1.2004.0_all.deb" >> "${BUILD_DIR}/Aptfile"
+echo "https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-recommended_${RVERSION}-1.2004.0_all.deb" >> "${BUILD_DIR}/Aptfile"
+echo "https://cloud.r-project.org/bin/linux/ubuntu/focal-cran40/r-base_${RVERSION}-1.2004.0_all.deb" >> "${BUILD_DIR}/Aptfile"
 
 
 apt_deps_buildpack_dir=$(mktemp apt_buildpack_XXXX)
@@ -42,6 +42,12 @@ ln -fs ${HOME}/.apt/usr/lib/R/etc/Renviron.site ${HOME}/.apt/etc/R/Renviron.site
 ln -fs ${HOME}/.apt/usr/lib/R/etc/Rprofile.site ${HOME}/.apt/etc/R/Rprofile.site
 ln -fs ${HOME}/.apt/usr/lib/R/etc/ldpaths ${HOME}/.apt/etc/R/ldpaths
 ln -fs ${HOME}/.apt/usr/lib/R/etc/repositories ${HOME}/.apt/etc/R/repositories
+
+${HOME}/.apt/usr/lib/R/etc/Renviron
+
+cat ${HOME}/.apt/usr/lib/R/etc/Renviron.site
+
+cat ${HOME}/.apt/usr/lib/R/etc/Rprofile.site
 
 curl -L https://cran.r-project.org/src/contrib/shiny_1.7.3.tar.gz --output ${CACHE_DIR}/shiny_1.7.3.tar.gz
 R -e "install.packages('shiny')"
