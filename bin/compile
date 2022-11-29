@@ -37,11 +37,11 @@ export R_HOME="${HOME}/.apt/usr/lib/R"
 export PATH="${R_HOME}:${PATH}"
 
 ln -fs ${HOME}/.apt/etc/R/Makeconf ${HOME}/.apt/usr/lib/R/etc/Makeconf
-ln -fs ${HOME}/.apt/usr/lib/R/etc/Renviron ${HOME}/.apt/etc/R/Renviron
-ln -fs ${HOME}/.apt/usr/lib/R/etc/Renviron.site ${HOME}/.apt/etc/R/Renviron.site
-ln -fs ${HOME}/.apt/usr/lib/R/etc/Rprofile.site ${HOME}/.apt/etc/R/Rprofile.site
-ln -fs ${HOME}/.apt/usr/lib/R/etc/ldpaths ${HOME}/.apt/etc/R/ldpaths
-ln -fs ${HOME}/.apt/usr/lib/R/etc/repositories ${HOME}/.apt/etc/R/repositories
+ln -fs ${HOME}/.apt/etc/R/Renviron ${HOME}/.apt/usr/lib/R/etc/Renviron
+ln -fs ${HOME}/.apt/etc/R/Renviron.site ${HOME}/.apt/usr/lib/R/etc/Renviron.site
+ln -fs ${HOME}/.apt/etc/R/Rprofile.site ${HOME}/.apt/usr/lib/R/etc/Rprofile.site
+ln -fs ${HOME}/.apt/etc/R/ldpaths ${HOME}/.apt/usr/lib/R/etc/ldpaths
+ln -fs ${HOME}/.apt/etc/R/repositories ${HOME}/.apt/usr/lib/R/etc/repositories
 
 ls -la ${HOME}/.apt/usr/lib/R/etc
 
