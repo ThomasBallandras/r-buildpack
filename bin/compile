@@ -43,6 +43,8 @@ ln -fs ${HOME}/.apt/usr/lib/R/etc/Rprofile.site ${HOME}/.apt/etc/R/Rprofile.site
 ln -fs ${HOME}/.apt/usr/lib/R/etc/ldpaths ${HOME}/.apt/etc/R/ldpaths
 ln -fs ${HOME}/.apt/usr/lib/R/etc/repositories ${HOME}/.apt/etc/R/repositories
 
+ls -la ${HOME}/.apt/usr/lib/R/etc
+
 # cat ${HOME}/.apt/usr/lib/R/etc/Renviron
 
 cat ${HOME}/.apt/usr/lib/R/etc/Renviron.site
