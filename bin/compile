@@ -43,7 +43,7 @@ ln -fs ${HOME}/.apt/etc/R/Rprofile.site ${HOME}/.apt/usr/lib/R/etc/Rprofile.site
 ln -fs ${HOME}/.apt/etc/R/ldpaths ${HOME}/.apt/usr/lib/R/etc/ldpaths
 ln -fs ${HOME}/.apt/etc/R/repositories ${HOME}/.apt/usr/lib/R/etc/repositories
 
-echo "R_LIBS_SITE=${HOME}/.apt/usr/lib/R:\${R_LIBS_SITE}" >> ${HOME}/.apt/etc/R/Renviron.site
+echo "R_LIBS_SITE=\"${HOME}/.apt/usr/lib/R:\${R_LIBS_SITE}\"" >> ${HOME}/.apt/etc/R/Renviron.site
 
 cat ${HOME}/.apt/etc/R/Renviron.site
 
