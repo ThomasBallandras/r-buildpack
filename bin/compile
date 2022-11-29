@@ -43,5 +43,7 @@ ln -fs ${HOME}/.apt/etc/R/Rprofile.site ${HOME}/.apt/usr/lib/R/etc/Rprofile.site
 ln -fs ${HOME}/.apt/etc/R/ldpaths ${HOME}/.apt/usr/lib/R/etc/ldpaths
 ln -fs ${HOME}/.apt/etc/R/repositories ${HOME}/.apt/usr/lib/R/etc/repositories
 
+ls -lRa ${HOME}/.apt/
+
 curl -L https://cran.r-project.org/src/contrib/shiny_1.7.3.tar.gz --output ${CACHE_DIR}/shiny_1.7.3.tar.gz
 R -e "install.packages('shiny')"
