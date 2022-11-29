@@ -43,12 +43,6 @@ ln -fs ${HOME}/.apt/etc/R/Rprofile.site ${HOME}/.apt/usr/lib/R/etc/Rprofile.site
 ln -fs ${HOME}/.apt/etc/R/ldpaths ${HOME}/.apt/usr/lib/R/etc/ldpaths
 ln -fs ${HOME}/.apt/etc/R/repositories ${HOME}/.apt/usr/lib/R/etc/repositories
 
-cat ${HOME}/.apt/usr/lib/R/etc/Renviron
-
-#cat ${HOME}/.apt/usr/lib/R/etc/Renviron.site
-
-#cat ${HOME}/.apt/usr/lib/R/etc/Rprofile.site
-
 R.home()
 
 curl -L https://cran.r-project.org/src/contrib/shiny_1.7.3.tar.gz --output ${CACHE_DIR}/shiny_1.7.3.tar.gz
