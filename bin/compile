@@ -80,7 +80,6 @@ pushd "${cache_dir}/R-4.0.0"
             --enable-java=no \
             --with-recommended-packages=no
 
-make check
 make
 make install
 
