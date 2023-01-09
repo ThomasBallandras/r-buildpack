@@ -51,8 +51,8 @@ ls -al "${build_dir}"
 find / -iname "export"
 
 
-if [ -e "${buildpack_dir}/export" ]; then
-    source "${buildpack_dir}/export"
+if [ -e "${apt_deps_buildpack_dir}/export" ]; then
+    source "${apt_deps_buildpack_dir}/export"
 fi
 
 #export BUILD_DIR="${build_dir}"
