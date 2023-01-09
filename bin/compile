@@ -68,7 +68,8 @@ pushd "${cache_dir}/R-4.0.0"
 
 # R documentation states that Debian-based systems may need to add
 # LIBnn=lib but it doesn't seem to bring better results.
-./configure --prefix="${build_dir}/R-4.0.0" \
+./configure LIBnn=lib \
+            --prefix="${build_dir}/R-4.0.0" \
             --libdir="${build_dir}/R-4.0.0/lib" \
             --enable-java=no \
             --with-recommended-packages=no
