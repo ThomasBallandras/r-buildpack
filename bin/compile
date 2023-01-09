@@ -62,7 +62,7 @@ printenv
 
 curl -L "${url}" --output "${cache_dir}/R-4.0.0.tar.gz"
 
-tar -xvzf "${cache_dir}/R-4.0.0.tar.gz" --directory "${cache_dir}/"
+tar -xvzf "${cache_dir}/R-4.0.0.tar.gz" --directory "${cache_dir}"
 
 pushd "${cache_dir}/R-4.0.0"
 
