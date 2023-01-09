@@ -38,13 +38,18 @@ git clone --depth=1 "${apt_buildpack_url}" "$apt_deps_buildpack_dir"
     "${build_dir}" "${cache_dir}" "${env_dir}"
 
 
-rm -r "$apt_deps_buildpack_dir"
+# rm -r "$apt_deps_buildpack_dir"
 
 # Check if the apt-buildpack left behind an environment for
 # subsequent ones:
+echo "buildpack_dir is: ${buildpack_dir}"
 ls -al "${buildpack_dir}"
+
+echo "build_dir is: ${build_dir}"
 ls -al "${build_dir}"
+
 find / -iname "export"
+
 
 if [ -e "${buildpack_dir}/export" ]; then
     source "${buildpack_dir}/export"
