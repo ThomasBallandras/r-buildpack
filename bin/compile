@@ -52,6 +52,7 @@ find / -iname "export"
 
 
 if [ -e "${apt_deps_buildpack_dir}/export" ]; then
+    echo "Sourcing ${apt_deps_buildpack_dir}/export"
     source "${apt_deps_buildpack_dir}/export"
 fi
 
