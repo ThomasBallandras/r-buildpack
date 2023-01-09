@@ -52,7 +52,7 @@ fi
 
 #export R_HOME="/tmp/cache/R-4.0.0"
 
-R_HOME="${build_dir}/R-4.0.0"
+R_HOME="${build_dir}/R-4.0.0/lib"
 export R_HOME
 
 PATH="\$HOME/.apt/bin/x86_64-linux-gnu-gfortran:${PATH}"
