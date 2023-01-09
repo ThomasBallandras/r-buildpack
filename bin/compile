@@ -55,6 +55,9 @@ fi
 R_HOME="${build_dir}/R-4.0.0"
 export R_HOME
 
+PATH="/usr/bin/x86_64-linux-gnu-gfortran:${PATH}"
+export PATH
+
 printenv
 
 # ----
