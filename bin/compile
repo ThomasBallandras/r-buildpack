@@ -7,12 +7,12 @@ then
     set -x
 fi
 
-readonly build_dir="${1}"
-readonly cache_dir="${2}"
-readonly env_dir="${3}"
+readonly BUILD_DIR="${1}"
+readonly CACHE_DIR="${2}"
+readonly ENV_DIR="${3}"
 
-readonly base_dir="$( cd -P "$( dirname "$0" )" && pwd )"
-readonly buildpack_dir="$( readlink -f "${base_dir}/.." )"
+readonly BASE_DIR="$( cd -P "$( dirname "$0" )" && pwd )"
+readonly BUILDPACK_DIR="$( readlink -f "${BASE_DIR}/.." )"
 
 
 readonly url="https://cran.r-project.org/src/base/R-4/R-4.0.0.tar.gz"
@@ -24,59 +24,58 @@ readonly url="https://cran.r-project.org/src/base/R-4/R-4.0.0.tar.gz"
 
 # Use Apt buildpack to install gfortran
 
-cat <<EOF >"${build_dir}/Aptfile"
-gfortran-10
+cat <<EOF >>"${BUILD_DIR}/Aptfile"
+gfortran
 EOF
 
-apt_deps_buildpack_dir=$(mktemp apt_buildpack_XXXX)
+apt_deps_buildpack_dir="$( mktemp apt_buildpack_XXXX )"
+# We only need a random name, so we can safely delete the file:
 rm "${apt_deps_buildpack_dir}"
 
 readonly apt_buildpack_url="https://github.com/Scalingo/apt-buildpack.git"
 git clone --depth=1 "${apt_buildpack_url}" "$apt_deps_buildpack_dir"
 
 "${apt_deps_buildpack_dir}/bin/compile" \
-    "${build_dir}" "${cache_dir}" "${env_dir}"
+    "${BUILD_DIR}" "${CACHE_DIR}" "${ENV_DIR}"
 
 
 # Check if the apt-buildpack left behind an environment for
 # subsequent ones:
 #
-# FIXME: export file should be in ${build_dir}, not in the temp apt dir
+# FIXME: export file should be in ${BUILD_DIR}, not in the temp apt dir
 # but this is where the apt-buildpack puts it :(
 #
 # rm -r "$apt_deps_buildpack_dir"
 
-if [ -e "${build_dir}/${apt_deps_buildpack_dir}/export" ]; then
-    source "${build_dir}/${apt_deps_buildpack_dir}/export"
+if [ -e "${BUILD_DIR}/${apt_deps_buildpack_dir}/export" ]; then
+    source "${BUILD_DIR}/${apt_deps_buildpack_dir}/export"
 fi
 
-#export R_HOME="/tmp/cache/R-4.0.0"
+printenv LD_LIBRARY_PATH
 
-R_HOME="${build_dir}/R-4.0.0/lib"
+
+R_HOME="${BUILD_DIR}/R-4.0.0/lib"
 export R_HOME
 
 PATH="\$HOME/.apt/bin/x86_64-linux-gnu-gfortran:${PATH}"
 export PATH
-
-LD_LIBRARY_PATH="\$HOME/.apt/lib/x86_64-linux-gnu:${LD_LIBRARY_PATH}"
-export LD_LIBRARY_PATH
 
 printenv
 
 # ----
 # Download and compile R
 
-curl -L "${url}" --output "${cache_dir}/R-4.0.0.tar.gz"
+curl -L "${url}" --output "${CACHE_DIR}/R-4.0.0.tar.gz"
 
-tar -xvzf "${cache_dir}/R-4.0.0.tar.gz" --directory "${cache_dir}"
+tar -xvzf "${CACHE_DIR}/R-4.0.0.tar.gz" --directory "${CACHE_DIR}"
 
-pushd "${cache_dir}/R-4.0.0"
+pushd "${CACHE_DIR}/R-4.0.0"
 
 # R documentation states that Debian-based systems may need to add
 # LIBnn=lib but it doesn't seem to bring better results.
 ./configure LIBnn=lib \
-            --prefix="${build_dir}/R-4.0.0" \
-            --libdir="${build_dir}/R-4.0.0/lib" \
+            --prefix="${BUILD_DIR}/R-4.0.0" \
+            --libdir="${BUILD_DIR}/R-4.0.0/lib" \
             --enable-java=no \
             --with-recommended-packages=no
 
@@ -85,8 +84,9 @@ make install
 
 popd
 
-ln -sfn "${build_dir}/R-4.0.0" "${build_dir}/R"
+ln -sfn "${BUILD_DIR}/R-4.0.0" "${BUILD_DIR}/R"
 
-export PATH="${build_dir}/R/bin:${PATH}"
+PATH="${BUILD_DIR}/R/bin:${PATH}"
+export PATH
 
 echo "Done."
