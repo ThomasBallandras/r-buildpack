@@ -25,9 +25,7 @@ readonly url="https://cran.r-project.org/src/base/R-4/R-4.0.0.tar.gz"
 # Use Apt buildpack to install gfortran
 
 cat <<EOF >"${build_dir}/Aptfile"
-build-essential
-gfortran
-pkg-config
+gfortran-10
 EOF
 
 apt_deps_buildpack_dir=$(mktemp apt_buildpack_XXXX)
