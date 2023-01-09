@@ -38,33 +38,24 @@ git clone --depth=1 "${apt_buildpack_url}" "$apt_deps_buildpack_dir"
     "${build_dir}" "${cache_dir}" "${env_dir}"
 
 
-# rm -r "$apt_deps_buildpack_dir"
-
 # Check if the apt-buildpack left behind an environment for
 # subsequent ones:
-echo "apt_deps_buildpack_dir is: ${apt_deps_buildpack_dir}"
-echo "buildpack_dir is: ${buildpack_dir}"
-echo "build_dir is: ${build_dir}"
-
-# find / -iname "export"
-
+#
+# FIXME: export file should be in ${build_dir}, not in the temp apt dir
+# but this is where the apt-buildpack puts it :(
+#
+# rm -r "$apt_deps_buildpack_dir"
 
 if [ -e "${build_dir}/${apt_deps_buildpack_dir}/export" ]; then
-    echo "Sourcing ${build_dir}/${apt_deps_buildpack_dir}/export"
     source "${build_dir}/${apt_deps_buildpack_dir}/export"
 fi
 
-#export BUILD_DIR="${build_dir}"
-#export PATH="$BUILD_DIR/.apt/usr/bin:$BUILD_DIR/.apt/usr/sbin:$PATH"
-#export LD_LIBRARY_PATH="$BUILD_DIR/.apt/usr/lib/gcc/x86_64-linux-gnu:$BUILD_DIR/.apt/lib/x86_64-linux-gnu:$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu:$BUILD_DIR/.apt/usr/lib/i386-linux-gnu:$BUILD_DIR/.apt/lib:$BUILD_DIR/.apt/usr/lib:$LD_LIBRARY_PATH"
-#export LIBRARY_PATH="$BUILD_DIR/.apt/usr/lib/gcc/x86_64-linux-gnu:$BUILD_DIR/.apt/lib/x86_64-linux-gnu:$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu:$BUILD_DIR/.apt/usr/lib/i386-linux-gnu:$BUILD_DIR/.apt/lib:$BUILD_DIR/.apt/usr/lib:$LIBRARY_PATH"
-#export INCLUDE_PATH="$BUILD_DIR/.apt/usr/include:$BUILD_DIR/.apt/usr/include/x86_64-linux-gnu:$INCLUDE_PATH"
-#export CPATH="$INCLUDE_PATH"
-#export CPPPATH="$INCLUDE_PATH"
-#export PKG_CONFIG_PATH="$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig:$BUILD_DIR/.apt/usr/lib/i386-linux-gnu/pkgconfig:$BUILD_DIR/.apt/usr/lib/pkgconfig:$PKG_CONFIG_PATH"
-
 #export R_HOME="/tmp/cache/R-4.0.0"
-#export R_HOME="${build_dir}/R-4.0.0"
+
+R_HOME="${build_dir}/R-4.0.0"
+export R_HOME
+
+printenv
 
 # ----
 # Download and compile R
