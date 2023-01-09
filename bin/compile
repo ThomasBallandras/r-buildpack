@@ -49,9 +49,9 @@ echo "build_dir is: ${build_dir}"
 find / -iname "export"
 
 
-if [ -e "${apt_deps_buildpack_dir}/export" ]; then
-    echo "Sourcing ${apt_deps_buildpack_dir}/export"
-    source "${apt_deps_buildpack_dir}/export"
+if [ -e "${build_dir}/${apt_deps_buildpack_dir}/export" ]; then
+    echo "Sourcing ${build_dir}/${apt_deps_buildpack_dir}/export"
+    source "${build_dir}/${apt_deps_buildpack_dir}/export"
 fi
 
 #export BUILD_DIR="${build_dir}"
