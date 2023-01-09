@@ -42,6 +42,7 @@ git clone --depth=1 "${apt_buildpack_url}" "$apt_deps_buildpack_dir"
 
 # Check if the apt-buildpack left behind an environment for
 # subsequent ones:
+echo "LP_DIR is: ${LP_DIR}"
 echo "apt_deps_buildpack_dir is: ${apt_deps_buildpack_dir}"
 echo "buildpack_dir is: ${buildpack_dir}"
 echo "build_dir is: ${build_dir}"
