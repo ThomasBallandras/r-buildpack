@@ -14,8 +14,8 @@ readonly ENV_DIR="${3}"
 readonly BASE_DIR="$( cd -P "$( dirname "$0" )" && pwd )"
 readonly BUILDPACK_DIR="$( readlink -f "${BASE_DIR}/.." )"
 
-
-readonly url="https://cran.r-project.org/src/base/R-4/R-4.0.0.tar.gz"
+readonly R_VERSION="${R_VERSION:-4.0.0}"
+readonly url="https://cran.r-project.org/src/base/R-${R_VERSION:0:1}/R-${R_VERSION}.tar.gz"
 
 
 
@@ -33,7 +33,7 @@ apt_deps_buildpack_dir="$( mktemp apt_buildpack_XXXX )"
 rm "${apt_deps_buildpack_dir}"
 
 readonly apt_buildpack_url="https://github.com/Scalingo/apt-buildpack.git"
-git clone --depth=1 "${apt_buildpack_url}" "$apt_deps_buildpack_dir"
+git clone --depth=1 "${apt_buildpack_url}" "${apt_deps_buildpack_dir}"
 
 "${apt_deps_buildpack_dir}/bin/compile" \
     "${BUILD_DIR}" "${CACHE_DIR}" "${ENV_DIR}"
@@ -65,26 +65,27 @@ printenv
 # ----
 # Download and compile R
 
-curl -L "${url}" --output "${CACHE_DIR}/R-4.0.0.tar.gz"
+curl --location "${url}" --output "${CACHE_DIR}/R-4.0.0.tar.gz"
 
-tar -xvzf "${CACHE_DIR}/R-4.0.0.tar.gz" --directory "${CACHE_DIR}"
+tar --extract --gzip --verbose --file="${CACHE_DIR}/R-4.0.0.tar.gz" \
+    --directory "${CACHE_DIR}"
 
 pushd "${CACHE_DIR}/R-4.0.0"
 
 # R documentation states that Debian-based systems may need to add
 # LIBnn=lib but it doesn't seem to bring better results.
 ./configure LIBnn=lib \
-            --prefix="${BUILD_DIR}/R-4.0.0" \
-            --libdir="${BUILD_DIR}/R-4.0.0/lib" \
-            --enable-java=no \
-            --with-recommended-packages=no
+    --prefix="${BUILD_DIR}/R-4.0.0" \
+    --libdir="${BUILD_DIR}/R-4.0.0/lib" \
+    --enable-java=no \
+    --with-recommended-packages=no
 
 make
 make install
 
 popd
 
-ln -sfn "${BUILD_DIR}/R-4.0.0" "${BUILD_DIR}/R"
+ln --symbolic --no-dereference --force "${BUILD_DIR}/R-4.0.0" "${BUILD_DIR}/R"
 
 PATH="${BUILD_DIR}/R/bin:${PATH}"
 export PATH
