@@ -28,6 +28,7 @@ cat <<EOF >>"${BUILD_DIR}/Aptfile"
 gfortran
 EOF
 
+cd "${HOME}"
 apt_deps_buildpack_dir="$( mktemp apt_buildpack_XXXX )"
 # We only need a random name, so we can safely delete the file:
 rm "${apt_deps_buildpack_dir}"
@@ -47,8 +48,8 @@ git clone --depth=1 "${apt_buildpack_url}" "${apt_deps_buildpack_dir}"
 #
 # rm -r "$apt_deps_buildpack_dir"
 
-if [ -e "${BUILD_DIR}/${apt_deps_buildpack_dir}/export" ]; then
-    source "${BUILD_DIR}/${apt_deps_buildpack_dir}/export"
+if [ -e "${HOME}/${apt_deps_buildpack_dir}/export" ]; then
+    source "${HOME}/${apt_deps_buildpack_dir}/export"
 fi
 
 printenv LD_LIBRARY_PATH
