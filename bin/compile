@@ -75,13 +75,15 @@ pushd "${CACHE_DIR}/R-4.0.0"
 
 # R documentation states that Debian-based systems may need to add
 # LIBnn=lib but it doesn't seem to bring better results.
-./configure LIBnn=lib \
+./configure \
+    CFLAGS='-g -O0' CXXFLAGS='-g -O0' FCFLAGS='-g -O0' LIBnn=lib \
     --prefix="${BUILD_DIR}/R-4.0.0" \
     --libdir="${BUILD_DIR}/R-4.0.0/lib" \
     --enable-java=no \
-    --with-recommended-packages=no
+    --with-recommended-packages=no \
+    --without-x \
 
-make
+make -j4
 make install
 
 popd
@@ -91,4 +93,4 @@ ln --symbolic --no-dereference --force "${BUILD_DIR}/R-4.0.0" "${BUILD_DIR}/R"
 PATH="${BUILD_DIR}/R/bin:${PATH}"
 export PATH
 
-echo "Done."
+echo "Done.
