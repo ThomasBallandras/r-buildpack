@@ -14,13 +14,12 @@ readonly ENV_DIR="${3}"
 readonly BASE_DIR="$( cd -P "$( dirname "$0" )" && pwd )"
 readonly BUILDPACK_DIR="$( readlink -f "${BASE_DIR}/.." )"
 
-readonly R_VERSION="${R_VERSION:-4.0.0}"
+readonly R_VERSION="${R_VERSION:-4.2.2}"
 readonly url="https://cran.r-project.org/src/base/R-${R_VERSION:0:1}/R-${R_VERSION}.tar.gz"
-
 readonly gfortran_package="gfortran-10"
 
-
-export APT_FILE_MANIFEST="${APT_FILE_MANIFEST:-Aptfile.R}"
+readonly APT_FILE_MANIFEST="${APT_FILE_MANIFEST:-Aptfile.R}"
+export APT_FILE_MANIFEST
 
 
 # ----
@@ -50,10 +49,6 @@ if [ -e "${HOME}/${apt_deps_buildpack_dir}/export" ]; then
     source "${HOME}/${apt_deps_buildpack_dir}/export"
 fi
 
-
-#R_HOME="${BUILD_DIR}/R-${R_VERSION}/lib"
-#export R_HOME
-
 PATH="\$HOME/.apt/bin/x86_64-linux-gnu-gfortran:${PATH}"
 export PATH
 
@@ -76,8 +71,8 @@ pushd "${CACHE_DIR}/R-${R_VERSION}"
     --with-recommended-packages=no \
     --without-x
 
-make FC="${gfortran_package}"
-make install rhome="/app/R-${R_VERSION}"
+make FC="${gfortran_package}" -j8
+make install rhome="\${HOME}/R-${R_VERSION}"
 
 popd
 
@@ -106,8 +101,14 @@ export CPPPATH="\$INCLUDE_PATH"
 export PKG_CONFIG_PATH="\$HOME/.apt/usr/lib/x86_64-linux-gnu/pkgconfig:\$HOME/.apt/usr/lib/i386-linux-gnu/pkgconfig:\$HOME/.apt/usr/lib/pkgconfig:\$PKG_CONFIG_PATH"
 EOF
 
-export PATH="/app/R-${R_VERSION}/bin:/app/.apt/usr/bin:/app/.apt/usr/sbin:\$PATH"
-export LD_LIBRARY_PATH="\$HOME/.apt/lib/x86_64-linux-gnu:\$HOME/.apt/usr/lib/x86_64-linux-gnu:\$HOME/.apt/usr/lib/i386-linux-gnu:\$HOME/.apt/lib:\$HOME/.apt/usr/lib:\$LD_LIBRARY_PATH"
+export PATH="$BUILD_DIR/R/bin:$BUILD_DIR/.apt/usr/bin:$BUILD_DIR/.apt/usr/sbin:$PATH"
+export LD_LIBRARY_PATH="$BUILD_DIR/.apt/lib/x86_64-linux-gnu:$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu:$BUILD_DIR/.apt/usr/lib/i386-linux-gnu:$BUILD_DIR/.apt/lib:$BUILD_DIR/.apt/usr/lib:$LD_LIBRARY_PATH"
+export LIBRARY_PATH="$BUILD_DIR/.apt/lib/x86_64-linux-gnu:$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu:$BUILD_DIR/.apt/usr/lib/i386-linux-gnu:$BUILD_DIR/.apt/lib:$BUILD_DIR/.apt/usr/lib:$LIBRARY_PATH"
+export INCLUDE_PATH="$BUILD_DIR/.apt/usr/include:$BUILD_DIR/.apt/usr/include/x86_64-linux-gnu:$INCLUDE_PATH"
+export CPATH="$INCLUDE_PATH"
+export CPPPATH="$INCLUDE_PATH"
+export PKG_CONFIG_PATH="$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig:$BUILD_DIR/.apt/usr/lib/i386-linux-gnu/pkgconfig:$BUILD_DIR/.apt/usr/lib/pkgconfig:$PKG_CONFIG_PATH"
+
 
 R --file=${HOME}/install-shiny.R --gui-none --no-save
 
