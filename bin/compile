@@ -76,7 +76,7 @@ pushd "${CACHE_DIR}/R-${R_VERSION}"
     --with-recommended-packages=no \
     --without-x
 
-make FC="${gfortran_package}" -j8
+make FC="${gfortran_package}"
 make install rhome="/app/R-${R_VERSION}"
 
 popd
