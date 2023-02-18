@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -eo pipefail
+set -x
 
 if [ -n "${BUILDPACK_DEBUG}" ]
 then
@@ -17,6 +18,8 @@ readonly BUILDPACK_DIR="$( readlink -f "${BASE_DIR}/.." )"
 readonly R_VERSION="${R_VERSION:-4.0.0}"
 readonly url="https://cran.r-project.org/src/base/R-${R_VERSION:0:1}/R-${R_VERSION}.tar.gz"
 readonly gfortran_package="gfortran-10"
+
+readonly cranurl="https://cran.r-project.org/src/contrib"
 
 readonly APT_FILE_MANIFEST="${APT_FILE_MANIFEST:-Aptfile.R}"
 export APT_FILE_MANIFEST
@@ -109,7 +112,30 @@ export CPATH="$INCLUDE_PATH"
 export CPPPATH="$INCLUDE_PATH"
 export PKG_CONFIG_PATH="$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig:$BUILD_DIR/.apt/usr/lib/i386-linux-gnu/pkgconfig:$BUILD_DIR/.apt/usr/lib/pkgconfig:$PKG_CONFIG_PATH"
 
+if [ -f "${BUILD_DIR}/cran_archive.csv" ] ; then
+  while IFS=, read -r name version; do 
+    echo "-----> Downloading package ${name}_${version}.tar.gz..."
+    curl --location "${cranurl}/Archive/${name}/${name}_${version}.tar.gz" --output "${CACHE_DIR}/${name}_${version}.tar.gz"
 
-R --file=${HOME}/install-shiny.R --gui-none --no-save
+    echo "-----> Installing package ${name}..."
+    pushd "${CACHE_DIR}"
+    R CMD INSTALL -l "${BUILD_DIR}/R-${R_VERSION}/lib" "${name}_${version}.tar.gz"
+    popd
+
+  done < "${BUILD_DIR}/cran_archive.csv"
+fi
+
+if [ -f "${BUILD_DIR}/cran_latest" ] ; then
+  while IFS= read -r name ; do
+    echo "-----> Installing package ${name} (latest version)..."
+    R -e "install.packages('${name}', '${BUILD_DIR}/R-${R_VERSION}/lib', repos='https://cran.r-project.org')"
+  done < "${BUILD_DIR}/cran_latest"
+fi
+
+cat <<EOF >${BUILD_DIR}/.Renviron
+R_LIBS=\$HOME/R/lib
+EOF
+
+# R --file=${HOME}/install-shiny.R --gui-none --no-save
 
 echo "Done."
