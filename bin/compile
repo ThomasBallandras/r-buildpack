@@ -114,6 +114,7 @@ export CPATH="$INCLUDE_PATH"
 export CPPPATH="$INCLUDE_PATH"
 export PKG_CONFIG_PATH="$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig:$BUILD_DIR/.apt/usr/lib/i386-linux-gnu/pkgconfig:$BUILD_DIR/.apt/usr/lib/pkgconfig:$PKG_CONFIG_PATH"
 
+# If a cran_archive.csv file is present, install packages with specific version
 if [ -f "${BUILD_DIR}/cran_archive.csv" ] ; then
   while IFS=, read -r name version; do 
     echo "-----> Downloading package ${name}_${version}.tar.gz..."
@@ -127,13 +128,12 @@ if [ -f "${BUILD_DIR}/cran_archive.csv" ] ; then
   done < "${BUILD_DIR}/cran_archive.csv"
 fi
 
+# If a cran_latest file is present, install packages (latest version) with dependencies
 if [ -f "${BUILD_DIR}/cran_latest" ] ; then
   while IFS= read -r name ; do
     echo "-----> Installing package ${name} (latest version)..."
     R -e "install.packages('${name}', '${BUILD_DIR}/R-${R_VERSION}/lib', repos='https://cran.r-project.org')"
   done < "${BUILD_DIR}/cran_latest"
 fi
-
-# R --file=${HOME}/install-shiny.R --gui-none --no-save
 
 echo "Done."
