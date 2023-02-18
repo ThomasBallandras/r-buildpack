@@ -102,6 +102,8 @@ export INCLUDE_PATH="\$HOME/.apt/usr/include:\$HOME/.apt/usr/include/x86_64-linu
 export CPATH="\$INCLUDE_PATH"
 export CPPPATH="\$INCLUDE_PATH"
 export PKG_CONFIG_PATH="\$HOME/.apt/usr/lib/x86_64-linux-gnu/pkgconfig:\$HOME/.apt/usr/lib/i386-linux-gnu/pkgconfig:\$HOME/.apt/usr/lib/pkgconfig:\$PKG_CONFIG_PATH"
+export R_LIBS="\$HOME/R/lib"
+export R_LIBS_USER="\$HOME/R/lib"
 EOF
 
 export PATH="$BUILD_DIR/R/bin:$BUILD_DIR/.apt/usr/bin:$BUILD_DIR/.apt/usr/sbin:$PATH"
@@ -131,10 +133,6 @@ if [ -f "${BUILD_DIR}/cran_latest" ] ; then
     R -e "install.packages('${name}', '${BUILD_DIR}/R-${R_VERSION}/lib', repos='https://cran.r-project.org')"
   done < "${BUILD_DIR}/cran_latest"
 fi
-
-cat <<EOF >${BUILD_DIR}/.Renviron
-R_LIBS=\$HOME/R/lib
-EOF
 
 # R --file=${HOME}/install-shiny.R --gui-none --no-save
 
