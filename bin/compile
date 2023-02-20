@@ -31,7 +31,6 @@ export APT_FILE_MANIFEST
 cat <<EOF >>"${BUILD_DIR}/${APT_FILE_MANIFEST}"
 ${gfortran_package}
 libgomp1
-libsodium-dev
 EOF
 
 cd "${HOME}"
