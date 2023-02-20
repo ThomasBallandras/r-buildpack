@@ -71,7 +71,7 @@ pushd "${CACHE_DIR}/R-${R_VERSION}"
     --libdir="${BUILD_DIR}/R-${R_VERSION}/lib" \
     --enable-java=no \
     --with-recommended-packages=no \
-    --with-x
+    --with-x=no
 
 make FC="${gfortran_package}" -j8
 make install rhome="/app/R-${R_VERSION}"
