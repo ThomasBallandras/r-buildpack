@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -eo pipefail
-set -x
 
 if [ -n "${BUILDPACK_DEBUG}" ]
 then
@@ -70,9 +69,9 @@ pushd "${CACHE_DIR}/R-${R_VERSION}"
     FC="${gfortran_package}" CFLAGS='-g -O0' CXXFLAGS='-g -O0' FCFLAGS='-g -O0' LIBnn=lib \
     --prefix="${BUILD_DIR}/R-${R_VERSION}" \
     --libdir="${BUILD_DIR}/R-${R_VERSION}/lib" \
-    --enable-java=no \
-    --with-recommended-packages=no \
-    --without-x
+    --enable-java=yes \
+    --with-recommended-packages=yes \
+    --with-x
 
 make FC="${gfortran_package}" -j8
 make install rhome="/app/R-${R_VERSION}"
