@@ -118,24 +118,19 @@ export PKG_CONFIG_PATH="$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig:$BUIL
 
 if [ -f "${BUILD_DIR}/cran_archive.csv" ] ; then
   while IFS=, read -r name version; do 
-    echo "-----> Downloading package ${name}_${version}.tar.gz..."
-    curl --location "${cranurl}/Archive/${name}/${name}_${version}.tar.gz" --output "${CACHE_DIR}/${name}_${version}.tar.gz"
+    if [ ${version} == "latest" ] ; then
+      echo "-----> Installing package ${name} (latest version)..."
+      R -e "install.packages('${name}', '${BUILD_DIR}/R-${R_VERSION}/lib', repos='https://cran.r-project.org')"
+    else
+      echo "-----> Downloading package ${name}_${version}.tar.gz..."
+      curl --location "${cranurl}/Archive/${name}/${name}_${version}.tar.gz" --output "${CACHE_DIR}/${name}_${version}.tar.gz"
 
-    echo "-----> Installing package ${name}..."
-    pushd "${CACHE_DIR}"
-    R CMD INSTALL -l "${BUILD_DIR}/R-${R_VERSION}/lib" "${name}_${version}.tar.gz"
-    popd
-
+      echo "-----> Installing package ${name}..."
+      pushd "${CACHE_DIR}"
+      R CMD INSTALL -l "${BUILD_DIR}/R-${R_VERSION}/lib" "${name}_${version}.tar.gz"
+      popd
+    fi
   done < "${BUILD_DIR}/cran_archive.csv"
 fi
-
-if [ -f "${BUILD_DIR}/cran_latest" ] ; then
-  while IFS= read -r name ; do
-    echo "-----> Installing package ${name} (latest version)..."
-    R -e "install.packages('${name}', '${BUILD_DIR}/R-${R_VERSION}/lib', repos='https://cran.r-project.org')"
-  done < "${BUILD_DIR}/cran_latest"
-fi
-
-# R --file=${HOME}/install-shiny.R --gui-none --no-save
 
 echo "Done."
