@@ -53,7 +53,7 @@ fi
 
 PATH="\$HOME/.apt:\$HOME/.apt/bin/x86_64-linux-gnu-gfortran:${PATH}"
 export PATH
-
+export LD_LIBRARY_PATH="$BUILD_DIR/.apt/lib/x86_64-linux-gnu:$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu:$BUILD_DIR/.apt/usr/lib/i386-linux-gnu:$BUILD_DIR/.apt/lib:$BUILD_DIR/.apt/usr/lib:$LD_LIBRARY_PATH"
 # ----
 # Download and compile R
 
