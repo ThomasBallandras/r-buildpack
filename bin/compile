@@ -67,7 +67,7 @@ pushd "${CACHE_DIR}/R-${R_VERSION}"
 ./configure \
     FC="${gfortran_package}" CFLAGS='-g -O0' CXXFLAGS='-g -O0' FCFLAGS='-g -O0' LIBnn=lib X_LIBS="${BUILD_DIR}/.apt/usr/lib/x86_64-linux-gnu" \
     --prefix="${BUILD_DIR}/R-${R_VERSION}" \
-    --libdir="${BUILD_DIR}/R-${R_VERSION}/library" \
+    --libdir="${BUILD_DIR}/R-${R_VERSION}/lib" \
     --enable-java=no \
     --with-recommended-packages=no \
     --with-x=no \
