@@ -18,7 +18,7 @@ readonly R_VERSION="${R_VERSION:-4.0.0}"
 readonly url="https://cran.r-project.org/src/base/R-${R_VERSION:0:1}/R-${R_VERSION}.tar.gz"
 readonly gfortran_package="gfortran-10"
 
-readonly cranurl="https://cran.r-project.org/src/contrib"
+readonly cranurl="https://cran.r-project.org"
 
 readonly APT_FILE_MANIFEST="${APT_FILE_MANIFEST:-Aptfile.R}"
 export APT_FILE_MANIFEST
@@ -51,9 +51,8 @@ if [ -e "${HOME}/${apt_deps_buildpack_dir}/export" ]; then
     source "${HOME}/${apt_deps_buildpack_dir}/export"
 fi
 
-PATH="\$HOME/.apt/bin/x86_64-linux-gnu-gfortran:${PATH}"
+PATH="\$HOME/.apt:\$HOME/.apt/bin/x86_64-linux-gnu-gfortran:${PATH}"
 export PATH
-
 
 # ----
 # Download and compile R
@@ -66,7 +65,7 @@ tar --extract --gzip --verbose --file="${CACHE_DIR}/R-${R_VERSION}.tar.gz" \
 pushd "${CACHE_DIR}/R-${R_VERSION}"
 
 ./configure \
-    FC="${gfortran_package}" CFLAGS='-g -O0' CXXFLAGS='-g -O0' FCFLAGS='-g -O0' LIBnn=lib \
+    FC="${gfortran_package}" CFLAGS='-g -O0' CXXFLAGS='-g -O0' FCFLAGS='-g -O0' LIBnn=lib X_LIBS="${BUILD_DIR}/.apt/usr/lib/x86_64-linux-gnu" \
     --prefix="${BUILD_DIR}/R-${R_VERSION}" \
     --libdir="${BUILD_DIR}/R-${R_VERSION}/lib" \
     --enable-java=no \
@@ -74,7 +73,7 @@ pushd "${CACHE_DIR}/R-${R_VERSION}"
     --with-x=no \
     --with-cairo=yes \
     --with-libpng=yes \
-    --enable-R-shlibs
+    --enable-R-shlib=yes
 
 make FC="${gfortran_package}" -j8
 make install rhome="/app/R-${R_VERSION}"
@@ -116,21 +115,24 @@ export CPATH="$INCLUDE_PATH"
 export CPPPATH="$INCLUDE_PATH"
 export PKG_CONFIG_PATH="$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig:$BUILD_DIR/.apt/usr/lib/i386-linux-gnu/pkgconfig:$BUILD_DIR/.apt/usr/lib/pkgconfig:$PKG_CONFIG_PATH"
 
-if [ -f "${BUILD_DIR}/cran_archive.csv" ] ; then
+# If a r_packages.csv file is present, install packages with specific version
+# https://cran.r-project.org/package=Rserve&version=1.7-3
+
+if [ -f "${BUILD_DIR}/r_packages.csv" ] ; then
   while IFS=, read -r name version; do 
     if [ ${version} == "latest" ] ; then
       echo "-----> Installing package ${name} (latest version)..."
-      R -e "install.packages('${name}', '${BUILD_DIR}/R-${R_VERSION}/lib', repos='https://cran.r-project.org')"
+      R -e "install.packages('${name}', '${BUILD_DIR}/R-${R_VERSION}/lib', repos='${cranurl}')"
     else
       echo "-----> Downloading package ${name}_${version}.tar.gz..."
-      curl --location "${cranurl}/Archive/${name}/${name}_${version}.tar.gz" --output "${CACHE_DIR}/${name}_${version}.tar.gz"
+      curl --location "${cranurl}/package=${name}&version=${version}" --output "${CACHE_DIR}/${name}_${version}.tar.gz"
 
       echo "-----> Installing package ${name}..."
       pushd "${CACHE_DIR}"
       R CMD INSTALL -l "${BUILD_DIR}/R-${R_VERSION}/lib" "${name}_${version}.tar.gz"
       popd
     fi
-  done < "${BUILD_DIR}/cran_archive.csv"
+  done < "${BUILD_DIR}/r_packages.csv"
 fi
 
 echo "Done."
