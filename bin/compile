@@ -122,14 +122,14 @@ if [ -f "${BUILD_DIR}/r_packages.csv" ] ; then
   while IFS=, read -r name version; do 
     if [ ${version} == "latest" ] ; then
       echo "-----> Installing package ${name} (latest version)..."
-      R -e "install.packages('${name}', '${BUILD_DIR}/R-${R_VERSION}/lib', repos='${cranurl}')"
+      R -e "install.packages('${name}', '${BUILD_DIR}/R-${R_VERSION}/library', repos='${cranurl}')"
     else
       echo "-----> Downloading package ${name}_${version}.tar.gz..."
       curl --location "${cranurl}/package=${name}&version=${version}" --output "${CACHE_DIR}/${name}_${version}.tar.gz"
 
       echo "-----> Installing package ${name}..."
       pushd "${CACHE_DIR}"
-      R CMD INSTALL -l "${BUILD_DIR}/R-${R_VERSION}/lib" "${name}_${version}.tar.gz"
+      R CMD INSTALL -l "${BUILD_DIR}/R-${R_VERSION}/library" "${name}_${version}.tar.gz"
       popd
     fi
   done < "${BUILD_DIR}/r_packages.csv"
